@@ -20,11 +20,7 @@ namespace OnlineShopSystem.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
+            Console.WriteLine("Work folder: " + System.IO.Directory.GetCurrentDirectory());
             return View();
         }
 
