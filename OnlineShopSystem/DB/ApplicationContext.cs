@@ -4,7 +4,8 @@ namespace OnlineShopSystem.DB
 {
     public class ApplicationContext : DbContext
     {
-        //public DbSet<Credit> CreditSet { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Session> Sessions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
