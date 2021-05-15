@@ -42,12 +42,12 @@ namespace OnlineShopSystem.Controllers
             }
         }
         [HttpPost]
-        public string DoRegister([FromBody] AuthRegisterViewModel model)
+        public string DoRegister([FromBody] AuthLoginViewModel model)
         {
-            if (model.Password != model.RePassword)
-            {
-                return JsonResponse.Error("passwords differ");
-            }
+            //if (model.Password != model.RePassword)
+            //{
+            //    return JsonResponse.Error("passwords differ");
+            //}
             using (ApplicationContext db = new ApplicationContext())
             {
                 var res = db.Users.Where(a => a.Email == model.Email).ToList();
@@ -57,7 +57,7 @@ namespace OnlineShopSystem.Controllers
                 }
                 else
                 {
-                    db.Users.Add(new DB.User() { Email = model.Email, Password = HashPassword(model.Password), Role = "user" } );
+                    db.Users.Add(new DB.User() { Email = model.Email, Password = HashPassword(model.Password), Role = "user" });
                     db.SaveChanges();
                     return JsonResponse.Success();
                 }

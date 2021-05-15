@@ -1,0 +1,39 @@
+﻿<form class="login-form">
+    <input type="email" placeholder="email" class="email-input" />
+    <input type="password" placeholder="password" class="password-input" />
+    <input type="password" placeholder="repeat password" class="re-password-input" />
+    <input type="button" value="register" class="login-button " />
+</form>
+
+<script>
+    const form = document.querySelector(".login-form");
+    const button = form.querySelector(".login-button");
+    button.addEventListener("click", () => {
+        const email = form.querySelector(".email-input").value;
+        const password = form.querySelector(".password-input").value;
+        const repassword = form.querySelector(".re-password-input").value;
+        if (password != repassword) {
+            alert("Passwords differ!");
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/Auth/DoRegister/', true);
+            xhr.setRequestHeader("Content-Type", "text/json");
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    let response = JSON.parse(xhr.response);
+                    if (response.status == "success") {
+                        location.href = "/Auth/Login";
+                    } else {
+                        alert(response.error);
+                    }
+                }
+
+            }
+
+            //xhr.send(`{"Login":"${login}","Password":"${password}","RePassword":"${repassword}"}`);
+            xhr.send(`{"Email":"${email}","Password":"${password}"}`);
+            //xhr.send(`sdfjkjsdklfs`);
+        }
+
+    })
+</script>

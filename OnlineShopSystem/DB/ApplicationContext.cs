@@ -9,7 +9,7 @@ namespace OnlineShopSystem.DB
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=OnlineShopSystem;Username=postgres;Password=admin;SearchPath=dbo");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=OnlineShopSystem;Username=postgres;Password=pass");
         }
     }
 }
