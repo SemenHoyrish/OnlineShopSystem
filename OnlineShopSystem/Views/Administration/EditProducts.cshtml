@@ -1,0 +1,235 @@
+﻿TODO !
+@if (ViewBag.Mode == "products")
+{
+    <div class="products">
+        @foreach (var product in ViewBag.Products)
+        {
+            <div class="product-card">
+                <a class="image-link" href="/Administration/EditProducts?id=@product.ID"><img src="~/Data/Uploads/Images/@product.Images[0]" /></a>
+                <div>
+                    <a class="text-link" href="/Administration/EditProducts?id=@product.ID"><h2>@product.Name</h2></a>
+                    <p>@product.Description</p>
+                    <span>@product.Cost рублей</span>
+                </div>
+            </div>
+        }
+    </div>
+    <a href="/Administration/EditProducts?id=0">Add product</a>
+    <style>
+        .page-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .products {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .product-card {
+            height: 300px;
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 140px;
+            flex-basis: 30%;
+        }
+
+            .product-card div {
+            }
+
+            .product-card .image-link {
+                max-height: 100%;
+            }
+
+                .product-card .image-link img {
+                    max-height: 100%;
+                    max-width: 100%;
+                }
+
+            .product-card .text-link {
+            }
+
+            .product-card p {
+            }
+
+            .product-card span {
+            }
+    </style>
+}
+else
+{
+    var product = ViewBag.Product;
+
+    @if (product == null)
+    {
+        <h1 style="color: red">Товар не найден!</h1>
+    }
+    else
+    {
+        <h1 class="page-title">Catalog/</h1>
+        <input type="hidden" value="@product.ID" class="product-id" />
+        <select class="product-category">
+            @foreach (var category in ViewBag.Categories)
+            {
+                if (product.Category == category.Name)
+                {
+                    <option selected="selected">@category.Name</option>
+                }
+                else
+                {
+                    <option>@category.Name</option>
+                }
+            }
+        </select>
+        <div class="product-info">
+            @if (product.Images.Count == 0)
+            {
+                <input type="file" class="product-image" accept=".jpg, .jpeg, .png" />
+            }
+            else
+            {
+                <img src="~/Data/Uploads/Images/@product.Images[0]" />
+                <input type="button" class="delete-image" value="delete image" />
+                <input type="file" class="product-image" style="display:none" accept=".jpg, .jpeg, .png" />
+            }
+            <div class="product-info-text">
+                <input class="product-name" value="@product.Name" />
+                <input class="product-description" value="@product.Description" />
+                <input class="product-cost" value="@product.Cost" />
+                <input class="product-remain" value="@product.GoodsRemain" />
+            </div>
+        </div>
+        <button class="save">SAVE</button>
+        <button class="delete">delete product</button>
+        <style>
+            .page-title {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .product-info {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .product-info-text {
+                margin-left: 100px;
+            }
+
+                .product-info-text h1 {
+                    font-size: 50px;
+                }
+
+                .product-info-text p {
+                    font-size: 26px;
+                }
+
+                .product-info-text span {
+                    display: block;
+                    font-size: 20px;
+                    margin-bottom: 10px;
+                }
+        </style>
+        <script>
+            const saveButton = document.querySelector(".save");
+            let images = [];
+            //images.push(document.querySelector(".product-info img").src.split("/")[document.querySelector(".product-info img").src.split("/").length - 1]);
+            //console.log(images);
+            saveButton.addEventListener("click", () => {
+                const category = document.querySelector(".product-category").selectedOptions[0].innerText,
+                    name = document.querySelector(".product-name").value,
+                    description = document.querySelector(".product-description").value,
+                    cost = +document.querySelector(".product-cost").value,
+                    remain = +document.querySelector(".product-remain").value,
+                    id = +document.querySelector(".product-id").value;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", '/Administration/EditProductsR/', true);
+                xhr.setRequestHeader("Content-Type", "text/json");
+                xhr.onreadystatechange = function () {
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                        let response = JSON.parse(xhr.response);
+                        if (response.status == "success") {
+                            alert("Успех!");
+                            location.reload();
+                        } else {
+                            alert(response.error);
+                        }
+                    }
+
+                }
+
+                xhr.send(`{"ID":${id},"Name":"${name}","Description":"${description}","Cost":${cost},"GoodsRemain":${remain},"Images":${JSON.stringify(images)},"Category":"${category}"}`);
+            })
+            const uplaodImageInput = document.querySelector(".product-image");
+            uplaodImageInput.addEventListener("change", () => {
+                const file = uplaodImageInput.files[0];
+                let name = file.name;
+                let content = "";
+
+                const reader = new FileReader();
+                reader.addEventListener('load', (event) => {
+                    content = event.target.result;
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/Administration/UploadImage/', true);
+                    xhr.setRequestHeader("Content-Type", "text/json");
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                            let response = JSON.parse(xhr.response);
+                            console.log(response);
+                            if (response.status == "success") {
+                                alert("File uploaded! filename: " + response.result);
+                                images.push(response.result);
+                            } else {
+                                alert(response.error);
+                            }
+                        }
+
+                    }
+
+                    xhr.send(`{"Name":"${name}","Content":"${content}"}`);
+                });
+                reader.readAsDataURL(file);
+
+            });
+            document.querySelector(".delete-image").addEventListener("click", () => {
+                uplaodImageInput.style.display = "block";
+                images = [];
+                document.querySelector(".product-info img").style.display = "none";
+                document.querySelector(".delete-image").style.display = "none";
+            });
+
+            document.querySelector(".delete").addEventListener("click", () => {
+                id = +document.querySelector(".product-id").value;
+
+                if (confirm("You are sure?"))
+                {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/Administration/DeleteProductR/', true);
+                    xhr.setRequestHeader("Content-Type", "text/json");
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                            let response = JSON.parse(xhr.response);
+                            if (response.status == "success") {
+                                alert("Товар удалён!");
+                                location.href = "/Administration/EditProducts";
+                            } else {
+                                alert(response.error);
+                            }
+                        }
+
+                    }
+
+                    xhr.send(`${id}`);
+                }
+
+               
+            })
+        </script>
+    }
+}
+

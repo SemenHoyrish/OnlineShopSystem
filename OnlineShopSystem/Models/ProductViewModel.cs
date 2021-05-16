@@ -16,7 +16,10 @@ namespace OnlineShopSystem.Models
         public List<string> Images { get; set; }
         public string Category { get; set; }
 
-        public ProductViewModel() { }
+        public ProductViewModel()
+        {
+            Images = new List<string>();
+        }
         public ProductViewModel(DB.Product product)
         {
             ID = product.ID;

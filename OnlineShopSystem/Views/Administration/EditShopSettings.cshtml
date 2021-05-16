@@ -44,13 +44,13 @@
     const button = settings.querySelector(".save-button");
     button.addEventListener("click", () => {
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/Administration/ChangeShopSettings', true);
+        xhr.open("POST", '/Administration/EditShopSettingsR', true);
         xhr.setRequestHeader("Content-Type", "text/json");
         xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 let response = JSON.parse(xhr.response);
                 if (response.status == "success") {
-                    alert("Успешно измененно! Теперь Вам необходимо перезапустить приложение!");
+                    alert("Успешно измененно!");
                 } else {
                     alert(response.error);
                 }

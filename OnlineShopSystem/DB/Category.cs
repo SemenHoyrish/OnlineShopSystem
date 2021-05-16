@@ -10,5 +10,13 @@ namespace OnlineShopSystem.DB
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public Category() { }
+        public Category(Models.CategoryViewModel cat)
+        {
+            ID = cat.ID;
+            Name = cat.Name;
+            Description = cat.Description;
+        }
     }
 }

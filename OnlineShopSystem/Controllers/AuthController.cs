@@ -83,9 +83,13 @@ namespace OnlineShopSystem.Controllers
             return false;
         }
 
-        public static void CheckUserLoggedIn(ControllerBase controller)
+        public static void CheckUserLoggedIn(ControllerBase controller, bool mustbeadmin=false)
         {
             if (!IsUserLoggedIn(controller))
+            {
+                controller.Response.Redirect("/Auth/Login");
+            }
+            if (mustbeadmin == true && GetCurrentUserRole(controller) != "admin")
             {
                 controller.Response.Redirect("/Auth/Login");
             }

@@ -1,5 +1,75 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<div class="categories">
+    @foreach (var category in ViewBag.Categories)
+    {
+        <div class="category-card">
+            <input type="hidden" value="@category.ID" class="category-id" />
+            <input type="text" value="@category.Name" class="category-name" />
+            <input type="text" value="@category.Description" class="category-description" />
+        </div>
+    }
+
+</div>
+<button class="add-category">add category</button>
+<button class="save-changes">save changes</button>
+
+<style>
+    .categories {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .category-card {
+        flex-basis: 25%;
+        margin-bottom: 40px;
+    }
+</style>
+
+<script>
+    const categoriesBlock = document.querySelector(".categories"),
+        addCategoryButton = document.querySelector(".add-category"),
+        saveChangesButton = document.querySelector(".save-changes");
+
+    addCategoryButton.addEventListener("click", () => {
+        const block = document.createElement("div");
+        block.classList.add("category-card");
+        block.innerHTML = `<input type="hidden" value="0" class="category-id" />
+            <input type="text" value="" class="category-name" />
+            <input type="text" value="" class="category-description" />`;
+        categoriesBlock.appendChild(block);
+    });
+
+    saveChangesButton.addEventListener("click", () => {
+        console.log("saving")
+        const cards = categoriesBlock.querySelectorAll(".category-card");
+        let categories = [];
+        cards.forEach(card => {
+            const id = card.querySelector(".category-id").value,
+                name = card.querySelector(".category-name").value,
+                description = card.querySelector(".category-description").value;
+            let obj = {
+                "id": +id, "name": name, "description": description
+            }
+            categories.push(obj);
+        });
+        console.log(categories);
+        const json = JSON.stringify(categories);
+        console.log(json);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/Administration/EditCategoriesR/', true);
+        xhr.setRequestHeader("Content-Type", "text/json");
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                let response = JSON.parse(xhr.response);
+                if (response.status == "success") {
+                    alert(response.result);
+                    location.reload();
+                } else {
+                    alert(response.error);
+                }
+            }
+
+        }
+
+        xhr.send(json);
+    });
+</script>
