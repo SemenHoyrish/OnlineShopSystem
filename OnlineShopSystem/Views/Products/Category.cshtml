@@ -1,0 +1,57 @@
+﻿@if (ViewBag.Category == null)
+{
+    <h1 style="color: red">Такой категории не найдено!</h1>
+}
+else
+{
+    <h1 class="page-title">Catalog/@ViewBag.Category.Name</h1>
+    <div class="products">
+        @foreach (var product in ViewBag.Products)
+        {
+            <div class="product-card">
+                <a class="image-link" href="/Products/Product?id=@product.ID"><img src="~/Data/Uploads/Images/@product.Images[0]" /></a>
+                <div>
+                    <a class="text-link" href="/Products/Product?id=@product.ID"><h2>@product.Name</h2></a>
+                    <p>@product.Description</p>
+                    <span>@product.Cost рублей</span>
+                </div>
+            </div>
+        }
+    </div>
+    <style>
+        .page-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .products {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .product-card {
+            height: 300px;
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 140px;
+            flex-basis: 30%;
+        }
+        .product-card div {
+        }
+        .product-card .image-link {
+            max-height: 100%;
+        }
+        .product-card .image-link img{
+            max-height: 100%;
+        } 
+        .product-card .text-link {
+
+        }
+        .product-card p {
+
+        }
+        .product-card span {
+
+        }
+    </style>
+}

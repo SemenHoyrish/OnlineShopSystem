@@ -1,0 +1,25 @@
+﻿<h1 class="page-title">Catalog</h1>
+<div class="categories">
+    @foreach (var category in ViewBag.Categories)
+    {
+        <div class="category">
+            <a href="/Products/Category?id=@category.ID">@category.Name</a>
+            <p>@category.Description</p>
+        </div>
+    }
+</div>
+<style>
+    .page-title {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .category {
+        background-color: burlywood;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .category a {
+        font-size: 24px;
+    }
+</style>

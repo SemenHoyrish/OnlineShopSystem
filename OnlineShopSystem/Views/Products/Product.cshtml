@@ -1,0 +1,51 @@
+﻿@{
+    var product = ViewBag.Product;
+}
+@if (product == null)
+{
+    <h1 style="color: red">Товар не найден!</h1>
+}
+else
+{
+    <h1 class="page-title">Catalog/@product.Category</h1>
+    <div class="product-info">
+        <img src="~/Data/Uploads/Images/@product.Images[0]" />
+        <div class="product-info-text">
+            <h1>@product.Name</h1>
+            <p>@product.Description</p>
+            <span>@product.Cost Р</span>
+            <span>@product.GoodsRemain</span>
+            <button class="buy-button">BUY</button>
+        </div>
+    </div>
+    <style>
+        .page-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .product-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .product-info-text {
+            margin-left: 100px;
+        }
+        .product-info-text h1 {
+            font-size: 50px;
+        }
+        .product-info-text p {
+            font-size: 26px;
+        }
+        .product-info-text span {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        document.querySelector(".buy-button").addEventListener("click", () => {
+            alert("Вы купили @product.Name за @product.Cost рублей!");
+        })
+    </script>
+}

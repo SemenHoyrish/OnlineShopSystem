@@ -14,6 +14,7 @@ namespace OnlineShopSystem.DB
         public int Cost { get; set; }
         public int GoodsRemain { get; set; }
         public string Images { get; set; }
+        public string Category { get; set; }
 
         public Product() { }
         public Product(Models.ProductViewModel product)
@@ -23,6 +24,7 @@ namespace OnlineShopSystem.DB
             Cost = product.Cost;
             GoodsRemain = product.GoodsRemain;
             Images = JsonSerializer.Serialize(product.Images);
+            Category = product.Category;
         }
     }
 }
