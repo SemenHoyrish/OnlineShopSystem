@@ -22,6 +22,7 @@
                 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                     let response = JSON.parse(xhr.response);
                     if (response.status == "success") {
+                        alert("Вы успешно зарегистрировались! Осталось войти в новый аккаунт...");
                         location.href = "/Auth/Login";
                     } else {
                         alert(response.error);

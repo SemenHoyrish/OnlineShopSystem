@@ -17,6 +17,7 @@
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 let response = JSON.parse(xhr.response);
                 if (response.status == "success") {
+                    alert("Вы успешно вошли!");
                     location.href = "/";
                 } else {
                     alert(response.error);
