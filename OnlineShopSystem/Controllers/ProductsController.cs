@@ -10,8 +10,10 @@ namespace OnlineShopSystem.Controllers
 {
     public class ProductsController : Controller
     {
+
         public IActionResult Index()
         {
+            //AuthController.CheckUserLoggedIn(this);
             List<CategoryViewModel> categories = new List<CategoryViewModel>();
             using (ApplicationContext db = new ApplicationContext())
             {

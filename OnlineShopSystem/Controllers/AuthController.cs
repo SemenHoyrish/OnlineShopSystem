@@ -38,7 +38,9 @@ namespace OnlineShopSystem.Controllers
             }
             else
             {
-                return JsonResponse.Success(GetNewSession(model.Email));
+                Response.Cookies.Append("Email", model.Email, new Microsoft.AspNetCore.Http.CookieOptions() {Path = "/", Expires = DateTimeOffset.Now.AddDays(7) });
+                Response.Cookies.Append("Session", GetNewSession(model.Email), new Microsoft.AspNetCore.Http.CookieOptions() {Path = "/", Expires = DateTimeOffset.Now.AddDays(7) });
+                return JsonResponse.Success();
             }
         }
         [HttpPost]
@@ -61,6 +63,31 @@ namespace OnlineShopSystem.Controllers
                     db.SaveChanges();
                     return JsonResponse.Success();
                 }
+            }
+        }
+
+        public static bool IsUserLoggedIn(ControllerBase controller)
+        {
+            string email = "";
+            string session = "";
+            controller.Request.Cookies.TryGetValue("email", out email);
+            controller.Request.Cookies.TryGetValue("session", out session);
+            if (email == "" || session == "")
+            {
+                return false;
+            }
+            if (CheckSession(session, email))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static void CheckUserLoggedIn(ControllerBase controller)
+        {
+            if (!IsUserLoggedIn(controller))
+            {
+                controller.Response.Redirect("/Auth/Login");
             }
         }
 
