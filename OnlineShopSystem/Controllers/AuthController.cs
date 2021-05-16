@@ -91,6 +91,27 @@ namespace OnlineShopSystem.Controllers
             }
         }
 
+        // ! Maybe not work
+        public static string GetCurrentUserRole(ControllerBase controller)
+        {
+            if(!IsUserLoggedIn(controller))
+            {
+                return "";
+            }
+            string email = "";
+            controller.Request.Cookies.TryGetValue("email", out email);
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var temp = db.Users.Where(a => a.Email == email).ToList();
+                if (temp.Count == 0)
+                {
+                    return "";
+                }
+                return temp[0].Role;
+            }
+
+        }
+
         public static string HashPassword(string password)
         {
             byte[] salt = new byte[128 / 8] { 54, 201, 77, 61, 222, 184, 12, 107, 10, 72, 239, 32, 165, 167, 93, 12 };

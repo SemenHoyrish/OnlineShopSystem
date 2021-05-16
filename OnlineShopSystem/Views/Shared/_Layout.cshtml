@@ -13,20 +13,24 @@
             <div class="container">
                 <img src="/Data/site_ico.png" alt="icon" />
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OnlineShopSystem</a>
+                @*@if (OnlineShopSystem.Controllers.AuthController.GetCurrentUserRole((ControllerBase)ViewContext.RouteData.Values["controller"]) == "admin")
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Administration" asp-action="Index">Administration panel</a>
+                }*@
                 @*<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>*@
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>*@
                 @*<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>*@
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>
+            </ul>
+        </div>*@
             </div>
         </nav>
     </header>
@@ -39,6 +43,14 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - @ShopSettings.Name
+            @if (ShopSettings.PhoneNumber != "")
+            {
+                <a>@ShopSettings.PhoneNumber</a>
+            }
+            @if (ShopSettings.Address != "")
+            {
+                <a>@ShopSettings.Address</a>
+            }
             @if (ShopSettings.Vk != "")
             {
                 <a href="https://@ShopSettings.Vk">VK</a>
@@ -48,6 +60,13 @@
                 <a href="https://@ShopSettings.Instagram">Instagram</a>
             }
         </div>
+        <style>
+            footer .container a {
+                border-left: 1px solid gray;
+                border-left: 1px solid gray;
+                padding: 5px;
+            }
+        </style>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

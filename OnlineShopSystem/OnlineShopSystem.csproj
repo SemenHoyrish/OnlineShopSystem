@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Data\Uploads\Images\" />
+    <Folder Include="ShopSettingsBackup\" />
   </ItemGroup>
 
   <ItemGroup>

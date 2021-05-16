@@ -1,0 +1,68 @@
+﻿<div class="shop-settings">
+    <label class="name">
+        Name:
+        <input type="text" class="name-input" value="@ShopSettings.Name" />
+    </label>
+    <label class="description">
+        Description:
+        <input type="text" class="description-input" value="@ShopSettings.Description" />
+    </label>
+    <label class="phone-number">
+        Phone Number:
+        <input type="tel" class="phone-number-input" value="@ShopSettings.PhoneNumber" />
+    </label>
+    <label class="address">
+        Address:
+        <input type="text" class="address-input" value="@ShopSettings.Address" />
+    </label>
+    <label class="vk">
+        Vk:
+        <input type="text" class="vk-input" value="@ShopSettings.Vk" />
+    </label>
+    <label class="instagram">
+        Instagram:
+        <input type="text" class="instagram-input" value="@ShopSettings.Instagram" />
+    </label>
+    <input type="button" class="save-button" value="save" />
+</div>
+
+
+<style>
+    .shop-settings label {
+        display: block;
+    }
+</style>
+
+<script>
+    const settings = document.querySelector(".shop-settings"),
+        name = settings.querySelector(".name-input").value,
+        description = settings.querySelector(".description-input").value,
+        phoneNumber = settings.querySelector(".phone-number-input").value,
+        address = settings.querySelector(".address-input").value,
+        vk = settings.querySelector(".vk-input").value,
+        instagram = settings.querySelector(".instagram-input").value;
+    const button = settings.querySelector(".save-button");
+    button.addEventListener("click", () => {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/Administration/ChangeShopSettings', true);
+        xhr.setRequestHeader("Content-Type", "text/json");
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                let response = JSON.parse(xhr.response);
+                if (response.status == "success") {
+                    alert("Успешно измененно! Теперь Вам необходимо перезапустить приложение!");
+                } else {
+                    alert(response.error);
+                }
+            }
+
+        }
+
+        xhr.send(`{"Name": "${name}","Description": "${description}","PhoneNumber": "${phoneNumber}","Address": "${address}","Vk": "${vk}","Instagram": "${instagram}"}`);
+    });
+</script>
+
+
+
+
+
