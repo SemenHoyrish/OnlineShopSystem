@@ -8,6 +8,7 @@ namespace OnlineShopSystem.DB
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

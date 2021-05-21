@@ -11,6 +11,7 @@ else
     <div class="product-info">
         <img src="~/Data/Uploads/Images/@product.Images[0]" />
         <div class="product-info-text">
+            <input type="hidden" class="id" value="@product.ID" />
             <h1>@product.Name</h1>
             <p>@product.Description</p>
             <span>@product.Cost Р</span>
@@ -45,7 +46,29 @@ else
     </style>
     <script>
         document.querySelector(".buy-button").addEventListener("click", () => {
-            alert("Вы купили @product.Name за @product.Cost рублей!");
-        })
+            const id = document.querySelector(".id").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", `/Basket/AddProduct/?id=${id}`, true);
+            xhr.setRequestHeader("Content-Type", "text/json");
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    console.log(xhr.response);
+                    let response = JSON.parse(xhr.response);
+                    if (response.status == "success") {
+                        alert("Успех");
+                    } else {
+                        if (response.error == "user are not logged in!") {
+                            location.href = "/Auth/Login";
+                        }
+                        else {
+                            alert(response.error);
+                        }
+                    }
+                }
+
+            }
+
+            xhr.send(null);
+        });
     </script>
 }

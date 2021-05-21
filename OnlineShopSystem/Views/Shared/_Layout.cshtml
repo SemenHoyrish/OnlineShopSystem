@@ -68,6 +68,23 @@
             }
         </style>
     </footer>
+    <script>
+        const cont = document.querySelector("header nav .container");
+
+        if (document.cookie.includes("IsAdmin")) {
+            cont.innerHTML += `<a class="navbar-brand" href="/Administration/Index">Administration panel</a>`
+        }
+        if (document.cookie.includes("Session")) {
+            cont.innerHTML += `<a class="navbar-brand" href="/Auth/Logout">Logout</a>`
+        }
+        if (document.cookie.includes("Session")) {
+            cont.innerHTML += `<a class="navbar-brand" href="/Basket/Index">Basket</a>`
+        }
+        if (!document.cookie.includes("Session")) {
+            cont.innerHTML += `<a class="navbar-brand" href="/Auth/Login">Login</a>`
+            cont.innerHTML += `<a class="navbar-brand" href="/Auth/Register">Register</a>`
+        }
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

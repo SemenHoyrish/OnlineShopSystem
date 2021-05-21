@@ -22,6 +22,14 @@ namespace OnlineShopSystem.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("Email");
+            Response.Cookies.Delete("Session");
+            Response.Cookies.Delete("IsAdmin");
+            return View();
+        }
+
         [HttpPost]
         public string DoLogin([FromBody] AuthLoginViewModel model)
         {
@@ -40,6 +48,10 @@ namespace OnlineShopSystem.Controllers
             {
                 Response.Cookies.Append("Email", model.Email, new Microsoft.AspNetCore.Http.CookieOptions() {Path = "/", Expires = DateTimeOffset.Now.AddDays(7) });
                 Response.Cookies.Append("Session", GetNewSession(model.Email), new Microsoft.AspNetCore.Http.CookieOptions() {Path = "/", Expires = DateTimeOffset.Now.AddDays(7) });
+                if (user[0].Role == "admin")
+                {
+                    Response.Cookies.Append("IsAdmin", "it`s a secret!", new Microsoft.AspNetCore.Http.CookieOptions() { Path = "/", Expires = DateTimeOffset.Now.AddDays(7) });
+                }
                 return JsonResponse.Success();
             }
         }
