@@ -1,4 +1,19 @@
 ﻿<div class="shop-settings">
+    @*<label>
+        ICO:
+        @if (System.IO.File.Exists("wwwroot/Data/site_ico.png") || System.IO.File.Exists("wwwroot/Data/site_ico.jpg") || System.IO.File.Exists("wwwroot/Data/site_ico.jpeg"))
+        {
+            <input type="file" class="product-image" accept=".jpg, .jpeg, .png" />
+        }
+        else
+        {
+            <img src="~/Data/site_ico.png" />
+            <img src="~/Data/site_ico.jpg" />
+            <img src="~/Data/site_ico.jpeg" />
+            <input type="button" class="delete-image" value="delete image" />
+            <input type="file" class="product-image" style="display:none" accept=".jpg, .jpeg, .png" />
+        }
+    </label>*@
     <label class="name">
         Name:
         <input type="text" class="name-input" value="@ShopSettings.Name" />
@@ -60,6 +75,60 @@
 
         xhr.send(`{"Name": "${name}","Description": "${description}","PhoneNumber": "${phoneNumber}","Address": "${address}","Vk": "${vk}","Instagram": "${instagram}"}`);
     });
+
+    @*
+    const uplaodImageInput = document.querySelector(".product-image");
+    uplaodImageInput.addEventListener("change", () => {
+        const file = uplaodImageInput.files[0];
+        let name = file.name;
+        let content = "";
+
+        const reader = new FileReader();
+        reader.addEventListener('load', (event) => {
+            content = event.target.result;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/Administration/UploadSiteIco/', true);
+            xhr.setRequestHeader("Content-Type", "text/json");
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    let response = JSON.parse(xhr.response);
+                    console.log(response);
+                    if (response.status == "success") {
+                        alert("File uploaded! filename: " + response.result);
+                        images.push(response.result);
+                    } else {
+                        alert(response.error);
+                    }
+                }
+
+            }
+
+            xhr.send(`{"Name":"${name}","Content":"${content}"}`);
+        });
+        reader.readAsDataURL(file);
+
+    });
+    document.querySelector(".delete-image").addEventListener("click", () => {
+        uplaodImageInput.style.display = "block";
+        document.querySelector(".product-info img").style.display = "none";
+        document.querySelector(".delete-image").style.display = "none";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", '/Administration/CheckSiteIco/', true);
+        xhr.setRequestHeader("Content-Type", "text/json");
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                let response = JSON.parse(xhr.response);
+                console.log(response);
+            }
+
+        }
+
+        xhr.send(null);
+    });
+        *@
+
 </script>
 
 

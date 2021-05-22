@@ -239,5 +239,28 @@ namespace OnlineShopSystem.Controllers
             return JsonResponse.Success(filename);
         }
 
+        //[HttpPost]
+        //public string UploadSiteIco([FromBody] UploadedFile file)
+        //{
+        //    string filename = "site_ico" + "." + file.Name.Split(".")[file.Name.Split(".").Length - 1];
+        //    //System.IO.File.WriteAllText($"wwwroot/Data/Uploads/Images/{filename}", file.Content);
+        //    var bytes = Convert.FromBase64String(file.Content.Split(",")[1]);
+        //    System.IO.File.WriteAllBytes($"wwwroot/Data/{filename}", bytes);
+
+        //    return JsonResponse.Success(filename);
+        //}
+
+        //[HttpGet]
+        //public string CheckSiteIco()
+        //{
+        //    if (System.IO.File.Exists("wwwroot/Data/site_ico.png") || System.IO.File.Exists("wwwroot/Data/site_ico.jpg") || System.IO.File.Exists("wwwroot/Data/site_ico.jpeg"))
+        //    { }
+        //    else
+        //    {
+        //        System.IO.File.WriteAllBytes("wwwroot/Data/site_ico.png", System.IO.File.ReadAllBytes("wwwroot/Data/site_ico_default.png"));
+        //    }
+        //    return JsonResponse.Success();
+        //}
+
     }
 }
