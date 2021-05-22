@@ -183,6 +183,19 @@ namespace OnlineShopSystem.Controllers
                     }
                     else
                     {
+                        //List<int> indexes = new List<int>();
+                        //for (int i = 0; i < product.Images.Count; i++)
+                        //{
+                        //    if (product.Images[i] == "")
+                        //    {
+                        //        indexes.Add(i);
+                        //    }
+                        //}
+                        //indexes.Reverse();
+                        //foreach(var index in indexes)
+                        //{
+                        //    product.Images.RemoveAt(index);
+                        //}
                         Product obj = new Product(product);
                         temp[0].Name = obj.Name;
                         temp[0].Description = obj.Description;

@@ -49,15 +49,16 @@
 </style>
 
 <script>
-    const settings = document.querySelector(".shop-settings"),
-        name = settings.querySelector(".name-input").value,
-        description = settings.querySelector(".description-input").value,
-        phoneNumber = settings.querySelector(".phone-number-input").value,
-        address = settings.querySelector(".address-input").value,
-        vk = settings.querySelector(".vk-input").value,
-        instagram = settings.querySelector(".instagram-input").value;
+    const settings = document.querySelector(".shop-settings");
+        
     const button = settings.querySelector(".save-button");
     button.addEventListener("click", () => {
+        const name = settings.querySelector(".name-input").value,
+            description = settings.querySelector(".description-input").value,
+            phoneNumber = settings.querySelector(".phone-number-input").value,
+            address = settings.querySelector(".address-input").value,
+            vk = settings.querySelector(".vk-input").value,
+            instagram = settings.querySelector(".instagram-input").value;
         var xhr = new XMLHttpRequest();
         xhr.open("POST", '/Administration/EditShopSettingsR', true);
         xhr.setRequestHeader("Content-Type", "text/json");
@@ -66,6 +67,7 @@
                 let response = JSON.parse(xhr.response);
                 if (response.status == "success") {
                     alert("Успешно измененно!");
+                    location.reload();
                 } else {
                     alert(response.error);
                 }

@@ -15,7 +15,7 @@ else
             <h1>@product.Name</h1>
             <p>@product.Description</p>
             <span>@product.Cost Р</span>
-            <span>@product.GoodsRemain</span>
+            <span>@product.GoodsRemain шт. осталось</span>
             <button class="buy-button">BUY</button>
         </div>
     </div>
@@ -29,6 +29,9 @@ else
             justify-content: center;
             align-items: center;
         }
+            .product-info img {
+                max-height: 600px;
+            }
         .product-info-text {
             margin-left: 100px;
         }

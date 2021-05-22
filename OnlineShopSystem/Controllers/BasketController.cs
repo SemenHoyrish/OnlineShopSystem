@@ -114,7 +114,7 @@ namespace OnlineShopSystem.Controllers
                 }
                 var purchase = temp[0];
                 var purchaseProducts = JsonSerializer.Deserialize<List<ProductViewModel>>(purchase.Products);
-                purchaseProducts.RemoveAt(0);
+                purchaseProducts.Remove(purchaseProducts.Where(a => a.ID == id).ToList()[0]);
                 purchase.Products = JsonSerializer.Serialize(purchaseProducts);
                 db.SaveChanges();
             }
